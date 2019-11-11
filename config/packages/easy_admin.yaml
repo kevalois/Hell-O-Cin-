@@ -1,0 +1,39 @@
+easy_admin:
+    site_name: 'HelloCine'
+    
+    entities:
+        
+          Casting:
+            class: App\Entity\Casting
+            label: 'Les Castings'
+            list:
+              title: "%%entity_label%%"
+              max_results : 10
+              
+            show:
+              title: "Custom Casting Show"
+
+          Department:
+            class: App\Entity\Department
+
+          Genre:
+            class: App\Entity\Genre
+
+          Job:
+            class: App\Entity\Job
+
+          Movie:
+            class: App\Entity\Movie
+            form:
+              fields:
+                - 'id'
+                - 'title'
+                - 'genres'
+
+          Person:
+            class: App\Entity\Person
+            show:
+              title: "Affichage %%entity_label%%"
+
+    design:
+      brand_color: '#1ABC9C'

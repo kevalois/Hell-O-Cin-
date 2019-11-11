@@ -1,0 +1,58 @@
+security:
+    # password encoders
+    # Comment est encodé le mot de passe du User
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    # D'où viennent les users ?
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                # email = le login du user pour s'authentifier
+                property: email
+    # = règles de sécurité
+    firewalls:
+        # ces règles de sécurité sont prises dans l'ordre le nom n'a pas d'importance
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+            #http_basic: true
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+            logout:
+                path: app_logout
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # On ouvre l'accès au login au user anonyme (surtout si votre appli est "privée")
+        # (pas utile pour nous ici)
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # Attention : mettre les règles les plus précises/profondes en premier
+        # car la première qui match sera utilisée
+        # ADMIN
+        # - { path: ^/backend/(movie|job|department|team|casting|genre|person)/new, roles: ROLE_ADMIN }
+        - { path: ^/backend/[a-z]+/new, roles: ROLE_ADMIN }
+        - { path: ^/backend/[a-z]+/\d+/edit, roles: ROLE_ADMIN }
+        - { path: ^/backend/[a-z]+/\d+, roles: ROLE_ADMIN, methods: DELETE }
+        # @todo : Attention Department avait été créé sans make:crud
+        # et contient des URLs différentes => à modifier
+        # USER
+        - { path: ^/backend/[a-z]+/, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
