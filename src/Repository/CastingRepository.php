@@ -22,7 +22,7 @@ class CastingRepository extends ServiceEntityRepository
     /**
      * EXO 2 : récupérer les moviecasts d'un movie donné + les infos de Person
      * Méthode DQL
-     *
+     * 
      * @param Movie $movie
      * @return Casting[]
      */
@@ -36,40 +36,27 @@ class CastingRepository extends ServiceEntityRepository
         ')
         ->setParameter('movie', $movie);
 
-        return $query->getResult();
-    }
-
-    public function findByMovieDQLForSerializing($movie)
-    {
-        $query = $this->getEntityManager()->createQuery('
-            SELECT c.role, p.name 
-            FROM App\Entity\Casting c
-            JOIN c.person p
-            WHERE c.movie = :movie
-        ')
-        ->setParameter('movie', $movie);
-
-        return $query->getResult();
+        return $query->getResult(); 
     }
 
     /**
      * EXO 2 : récupérer les moviecasts d'un movie donné + les infos de Person
      * Méthode Query Builder
-     *
+     * 
      * @param Movie $movie
      * @return Casting[]
      */
     public function findByMovieQueryBuilder($movie)
     {
-        $qb = $this->createQueryBuilder('c')
+       $qb = $this->createQueryBuilder('c')
            ->join('c.person', 'p')
            ->addSelect('p')
            ->where('c.movie = :myMovie')
            ->setParameter('myMovie', $movie)
        ;
        
-        //cast retour de requete
+       //cast retour de requete
 
-        return $qb->getQuery()->getArrayResult();
+       return $qb->getQuery()->getArrayResult();
     }
 }

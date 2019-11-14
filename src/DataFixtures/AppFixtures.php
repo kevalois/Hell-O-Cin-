@@ -23,14 +23,16 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AppFixtures extends Fixture
 {
     private $passwordEncoder;
+    private $slugger;
 
     /**
      * On demande à Symfony de nous transmettre le "service" UserPasswordEncoder
      * à l'instanciation de l'objet
      */
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, Slugger $slugger)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->slugger = $slugger;
     }
 
     public function load(ObjectManager $manager)
@@ -55,8 +57,6 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         $generator = Factory::create('fr_FR');
-        // On donne le point de départ du random
-        $generator->seed('monsuperpointdedepart');
 
         //ajout provider custom MovieAndGenreProvider 
         //Note : $generator est attendu dans le constructeur de la classe Base de faker
@@ -69,12 +69,18 @@ class AppFixtures extends Fixture
          -> effet de bord sur adders qui utilise la methode contains sur du null
         */
         $populator->addEntity(Movie::class, 10, array(
-                'title' => function() use ($generator) { return $generator->unique()->movieTitle(); },
-                'score' => function() use ($generator) { return $generator->numberBetween(0, 5); },
-                'summary' => function() use ($generator) { return $generator->paragraph(); },
-                'poster' => null,
-            )
-        );
+            'title' => function() use ($generator) { return $generator->unique()->movieTitle(); },
+            'score' => function() use ($generator) { return $generator->numberBetween(0, 5); },
+            'summary' => function() use ($generator) { return $generator->paragraph(); },
+            'poster' => null,
+        ), array(
+            // Faker nous donne chaque film créé que l'on peut manipuler
+            function($movie) {
+                // $this sera connu de la fonction anonyme / pas besoin de use ()
+                $slug = $this->slugger->slugify($movie->getTitle());
+                $movie->setSlug($slug);
+            }
+        ));
             
         $populator->addEntity(Genre::class, 20, array(
             'name' => function() use ($generator) { return $generator->unique()->movieGenre(); },

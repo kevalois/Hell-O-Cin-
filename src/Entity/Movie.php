@@ -2,15 +2,12 @@
 
 namespace App\Entity;
 
-use App\Utils\Slugger;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-// cf : https://symfony.com/doc/current/components/serializer.html#component-serializer-attributes-groups-annotations
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MovieRepository")
@@ -22,20 +19,16 @@ class Movie
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("movies_get")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank
-     * @Groups("movies_get")
      */
     private $title;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Genre", inversedBy="movies", cascade={"persist"})
-     * @Groups("movies_get")
      */
     private $genres;
 
@@ -53,19 +46,16 @@ class Movie
 
     /**
      * @ORM\Column(type="smallint")
-     * @Groups("movies_get")
      */
     private $score;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank
      */
     private $summary;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups("movies_get")
      */
     private $productionDate;
 
@@ -78,13 +68,11 @@ class Movie
      * 
      * 
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups("movies_get")
      */
     private $poster;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
-     * @Groups("movies_get")
      */
     private $slug;
 
@@ -107,9 +95,6 @@ class Movie
         $this->teams = new ArrayCollection();
         $this->score = 0;
         $this->productionDate = new DateTime();
-
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = null;
     }
 
     public function getId()
@@ -307,5 +292,4 @@ class Movie
 
         return $this;
     }
-
 }

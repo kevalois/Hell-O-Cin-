@@ -5,6 +5,7 @@ security:
         App\Entity\User:
             algorithm: auto
 
+    
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     # D'où viennent les users ?
     providers:
@@ -22,10 +23,15 @@ security:
             security: false
         main:
             anonymous: true
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: default_security_target
+              
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
-            #http_basic: true
+            http_basic: true
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
@@ -34,13 +40,12 @@ security:
                 path: app_logout
             guard:
                 authenticators:
-                    - App\Security\LoginFormAuthenticator
+                    - App\Security\Authenticator
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         # On ouvre l'accès au login au user anonyme (surtout si votre appli est "privée")
-        # (pas utile pour nous ici)
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # Attention : mettre les règles les plus précises/profondes en premier
         # car la première qui match sera utilisée
@@ -52,7 +57,4 @@ security:
         # @todo : Attention Department avait été créé sans make:crud
         # et contient des URLs différentes => à modifier
         # USER
-        - { path: ^/backend/[a-z]+/, roles: ROLE_USER }
-
-    role_hierarchy:
-        ROLE_ADMIN: ROLE_USER
+        - { path: ^/backend/[a-z]+/, roles: [ROLE_USER, ROLE_ADMIN] }

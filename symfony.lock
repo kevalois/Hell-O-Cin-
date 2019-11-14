@@ -114,8 +114,8 @@
             "ref": "0a51040a43c6f2172a3a0135cd15daf2043905d7"
         },
         "files": [
-            "config/packages/easy_admin.yaml",
-            "config/routes/easy_admin.yaml"
+            "./config/packages/easy_admin.yaml",
+            "./config/routes/easy_admin.yaml"
         ]
     },
     "egulias/email-validator": {
@@ -232,10 +232,7 @@
             "branch": "master",
             "version": "1.0",
             "ref": "c82bead70f9a4f656354a193df7bf0ca2114efa0"
-        },
-        "files": [
-            "public/.htaccess"
-        ]
+        }
     },
     "symfony/asset": {
         "version": "v4.3.3"
@@ -604,7 +601,7 @@
             "ref": "a86723ee8d8b2f9437c8ce60a5546a1c267da5ed"
         },
         "files": [
-            "config/packages/twig_extensions.yaml"
+            "./config/packages/twig_extensions.yaml"
         ]
     },
     "twig/twig": {

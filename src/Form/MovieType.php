@@ -22,6 +22,7 @@ class MovieType extends AbstractType
             ->add('title', TextType::class, [
                 'empty_data' => '', 
                 'constraints' => [
+                    new NotBlank(),
                     new Length([
                         'min'        => 3,
                         'max'        => 100,
@@ -33,6 +34,7 @@ class MovieType extends AbstractType
             ->add('summary', TextareaType::class, [
                 'empty_data' => '', 
                 'constraints' => [
+                    new NotBlank(),
                     new Length([
                         'min'        => 10,
                         'max'        => 255,

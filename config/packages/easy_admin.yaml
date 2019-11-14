@@ -28,7 +28,6 @@ easy_admin:
               fields:
                 - 'id'
                 - 'title'
-                - 'genres'
 
           Person:
             class: App\Entity\Person

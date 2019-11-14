@@ -8,7 +8,7 @@
             
         {% for lastMovie in last_movies %}
             <div>
-                <a href="{{ path('movie_show', {'slug': lastMovie.slug })}}">
+                <a href="{{ path('movie_show', {'id': lastMovie.id })}}">
                     {{ lastMovie }}
                 </a>
             </div>
@@ -20,7 +20,7 @@
 {% block content %}
 
     <h2 id="header-margin">
-        Retrouvez les films recensés sur Hell'O Ciné, à voir ou à revoir, seul, en famille ou entre amis.
+        Retrouvez les films recensés sur Allociné, à voir ou à revoir, seul, en famille ou entre amis.
     </h2>
 
     <ul>
@@ -31,7 +31,7 @@
 
         {% else %}
 
-            Aucun film ne correspond à la recherche recherche : <strong> {{ searchTitle }} </strong>
+            Aucun film ne correspond à la recherche : <strong> {{ searchTitle }} </strong>
             
         {% endfor %}
         

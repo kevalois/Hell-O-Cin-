@@ -37,7 +37,7 @@ class MovieController extends AbstractController
     }
 
     /**
-     * @Route("/movie/{slug}", name="movie_show", methods={"GET"}, requirements={"slug"="[a-z0-9-]+"})
+     * @Route("/movie/{id}", name="movie_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Movie $movie, CastingRepository $castingRepository)
     {
@@ -47,16 +47,5 @@ class MovieController extends AbstractController
             'movie' => $movie,
             'castings' => $castings
         ]);
-    }
-
-    /**
-     * On écrit cette action après avoir écrit le test
-     * et on suit les erreurs du test jusqu'à ce que ça passe !
-     * 
-     * @Route("/mentions-legales", name="app_legal")
-     */
-    public function legal()
-    {
-        return $this->render('default/legal.html.twig');
     }
 }

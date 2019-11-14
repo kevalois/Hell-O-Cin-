@@ -50,7 +50,6 @@ class Casting
 
     public function __construct()
     {
-        // Valeurs par défaut
         $this->createdAt = new \DateTime();
         $this->updatedAt = null;
     }

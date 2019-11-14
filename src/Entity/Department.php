@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DepartmentRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class Department
 {
@@ -122,13 +121,5 @@ class Department
         $this->updatedAt = $updatedAt;
 
         return $this;
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function setUpdatedAtValue()
-    {
-        $this->updatedAt = new \DateTime();
     }
 }

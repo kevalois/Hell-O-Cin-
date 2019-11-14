@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190226164808 extends AbstractMigration
+final class Version20191001124834 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,8 +22,8 @@ final class Version20190226164808 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE movie ADD poster VARCHAR(255) NOT NULL, CHANGE title title VARCHAR(100) NOT NULL');
-        $this->addSql('ALTER TABLE casting CHANGE role role VARCHAR(100) NOT NULL');
+        $this->addSql('ALTER TABLE movie ADD slug VARCHAR(100) NOT NULL, CHANGE poster poster VARCHAR(255) DEFAULT NULL');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_1D5EF26F989D9B62 ON movie (slug)');
     }
 
     public function down(Schema $schema) : void
@@ -31,7 +31,7 @@ final class Version20190226164808 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE casting CHANGE role role VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci');
-        $this->addSql('ALTER TABLE movie DROP poster, CHANGE title title VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci');
+        $this->addSql('DROP INDEX UNIQ_1D5EF26F989D9B62 ON movie');
+        $this->addSql('ALTER TABLE movie DROP slug, CHANGE poster poster VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci');
     }
 }

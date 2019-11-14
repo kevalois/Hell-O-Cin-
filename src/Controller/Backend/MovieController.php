@@ -92,8 +92,11 @@ class MovieController extends AbstractController
     /**
      * @Route("/{id}/edit", name="movie_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
      */
-    public function edit(Request $request, Movie $movie): Response
+    public function edit(Request $request, Movie $movie, Slugger $slugger): Response
     {
+        // Test du slugger
+        dump($slugger->slugify($movie->getTitle()));
+
         $oldPoster = $movie->getPoster();
 
         if(!empty($oldPoster)) {

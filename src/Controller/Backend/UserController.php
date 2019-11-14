@@ -4,12 +4,11 @@ namespace App\Controller\Backend;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Form\UserEditType;
 use App\Repository\UserRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -33,9 +32,7 @@ class UserController extends AbstractController
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user, [
-            'validation_groups' => ['Default', 'new'],
-        ]);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,10 +74,10 @@ class UserController extends AbstractController
     {
         // On stocke le mot de passe courant
         $currentPassword = $user->getPassword();
+        // On passe le mot de passe à vide
+        $user->setPassword('');
 
-        $form = $this->createForm(UserType::class, $user, [
-            'validation_groups' => ['Default'],
-        ]);
+        $form = $this->createForm(UserType::class, $user);
         // Ici, le nouveau mot de passe sera renseigné dans $user
         $form->handleRequest($request);
 
