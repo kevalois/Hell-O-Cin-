@@ -24,10 +24,9 @@ security:
         main:
             anonymous: true
             form_login:
-                login_path: login
-                check_path: login
+                login_path: app_login
+                check_path: app_login
                 default_target_path: default_security_target
-              
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
